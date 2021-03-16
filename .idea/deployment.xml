@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="WEBTECH2Z2" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="WEBTECH2Z2">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/zd2ks97933" local="$PROJECT_DIR$" web="/zd2ks97933" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
