@@ -95,7 +95,14 @@ function save()
         .then(data =>
         {
             console.log(data);
+            if(data === false)
+            {
+                window.alert("Niekde nastala chyba");
+            }
+            else
+            {
+                window.location.replace("http://147.175.98.142/zd2ks97933/index.html");
+            }
         });
 
-    window.location.replace("http://147.175.98.142/zd2ks97933/index.html");
 }

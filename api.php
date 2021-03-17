@@ -83,6 +83,7 @@ switch ($operation)
         $json = file_get_contents('php://input');
         $data = json_decode($json);
         $result = $repository->addPlacing($data);
+        echo json_encode($result);
         break;
 
 
