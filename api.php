@@ -19,6 +19,26 @@ switch ($operation)
     case "goldPerson":
         echo json_encode($repository->getMainTable());
         break;
+    case "goldPersonSortBySurname":
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+        echo json_encode($repository->getMainTableSortBySurname($data->sort));
+        break;
+    case "goldPersonSortByType":
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+        echo json_encode($repository->getMainTableSortByType($data->sort));
+        break;
+    case "goldPersonSortByYear":
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+        echo json_encode($repository->getMainTableSortByYear($data->sort));
+        break;
+    case "goldPersonSortTypeAndYear":
+        $json = file_get_contents('php://input');
+        $data = json_decode($json);
+        echo json_encode($repository->getMainTableSortByTypeAndYear($data->sortType,$data->sortYear));
+        break;
     case "bestPerson":
         echo json_encode($repository->getBestPerson());
         break;
@@ -52,6 +72,7 @@ switch ($operation)
         $data = json_decode($json);
         $personId = $data->id;
         echo json_encode($repository->getPlacingOfPerson($personId));
+        break;
     case "getAllPerson":
         echo json_encode($repository->getAllPersons());
         break;
@@ -63,6 +84,7 @@ switch ($operation)
         $data = json_decode($json);
         $result = $repository->addPlacing($data);
         break;
+
 
 
 

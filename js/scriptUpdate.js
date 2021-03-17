@@ -1,5 +1,5 @@
 let newPerson = false;
-let chyba = false;
+// let chyba = false;
 
 function setInputField(data)
 {
@@ -13,7 +13,6 @@ function setInputField(data)
     surname.value = data.surname;
 
     let dateOfBirth = document.getElementById("datumNarodenia");
-    console.log("Datum narodenia      " + data.birth_day);
     dateOfBirth.value = setDateFromDatabaseToInput(data.birth_day);
 
     let cityOfBirth = document.getElementById("mestoNarodenia");
@@ -110,17 +109,13 @@ function save()
     else {
         updateExistPerson();
     }
-    console.log("chyba:  " + chyba);
 
-    if(chyba)
-    {
-        window.location.replace("http://147.175.98.142/zd2ks97933/index.html");
-    }
 
 }
 
 function uploadNewPerson()
 {
+    chyba = false;
     const url = "api.php?operation=insertPerson";
     const request = new Request(url, {
         method:'POST',
@@ -135,15 +130,17 @@ function uploadNewPerson()
         .then(request => request.json())
         .then(data =>
         {
-            console.log(data);
-            if(!data)
+            console.log("type data      " + typeof data);
+            if(data === false)
             {
-                chyba = true;
+                // chyba = true;
+                console.log("chyba pri vkladani:  " + data + "  ma byt false");
                 window.alert("Niekde nastala chyba (Daná osoba už existuje v databáze)");
             }
             else
             {
-                chyba = false;
+                console.log("chyba pri vkladani:  " + data + " ma byt true");
+                window.location.replace("http://147.175.98.142/zd2ks97933/index.html");
             }
 
 
@@ -152,6 +149,7 @@ function uploadNewPerson()
 
 function updateExistPerson()
 {
+    chyba = false;
     const url = "api.php?operation=updatePerson";
     const request = new Request(url, {
         method:'POST',
@@ -166,16 +164,19 @@ function updateExistPerson()
         .then(request => request.json())
         .then(data =>
         {
-            console.log(data);
-            if(!data)
+            console.log("type data      " + typeof data);
+            if(data === false)
             {
-                chyba = true;
+                // chyba = true;
+                console.log("chyba pri update:  " + data  + "  ma byt false");
+
                 window.alert("Niekde nastala chyba");
 
             }
             else
             {
-                chyba = false;
+                console.log("chyba pri update:  " + data + " ma byt true");
+                window.location.replace("http://147.175.98.142/zd2ks97933/index.html");
             }
 
 
@@ -188,12 +189,10 @@ function getInputData(isNew)
     let id = document.getElementById("id");
     id = id.value;
 
-    console.log("aaa >  " + id);
 
     let name = document.getElementById("meno");
     name = name.value;
 
-    console.log("meno>  " + name + " typ>  " + typeof name);
 
     let surname = document.getElementById("priezvisko");
     surname = surname.value;
@@ -201,7 +200,6 @@ function getInputData(isNew)
     let dateOfBirth = document.getElementById("datumNarodenia");
     dateOfBirth = setDateFromInputToDatabase(dateOfBirth.value);
 
-    console.log(dateOfBirth);
 
     let cityOfBirth = document.getElementById("mestoNarodenia");
     cityOfBirth = cityOfBirth.value;

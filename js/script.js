@@ -1,3 +1,9 @@
+let sortSurname = "ASC";
+let sortType = "ASC";
+let sortYear = "ASC";
+let isSortedByType = false;
+
+
 function getGoldPersonInformation()
 {
     const url = "api.php?operation=goldPerson";
@@ -15,30 +21,122 @@ function getGoldPersonInformation()
                 tableGold.append(getRowForTableGold(d));
             });
 
-            // $('#tableGold').DataTable({
-            //     data:data,
-            //     columns: [
-            //         { data: 'meno',},
-            //         { data: 'priezvisko',},
-            //         { data: 'rok',},
-            //         { data: 'mesto', },
-            //         { data: 'typ',},
-            //         { data: 'disciplina',},
-            //     ],
-            //     "paging":   false,
-            //     "ordering": false,
-            //     "info":     false,
-            //     "searching": false,
-            //
-            //
-            //
-            //
-            //
-            //
-            // });
 
         });
 }
+
+
+function getGoldPersonInformationSortBySurname()
+{
+    const url = "api.php?operation=goldPersonSortBySurname";
+    const request = new Request(url, {
+        method:'POST',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sort: sortSurname }),
+    });
+
+    fetch(request)
+        .then(request => request.json())
+        .then(data =>
+        {
+            let tableGold = document.getElementById("bodyGold");
+            tableGold.innerHTML = "";
+            data.forEach(d => {
+                tableGold.append(getRowForTableGold(d));
+            });
+
+
+        });
+}
+
+function getGoldPersonInformationSortByYear()
+{
+    const url = "api.php?operation=goldPersonSortByYear";
+    const request = new Request(url, {
+        method:'POST',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sort: sortYear }),
+    });
+
+    fetch(request)
+        .then(request => request.json())
+        .then(data =>
+        {
+            let tableGold = document.getElementById("bodyGold");
+            tableGold.innerHTML = "";
+            data.forEach(d => {
+                tableGold.append(getRowForTableGold(d));
+            });
+
+
+        });
+}
+
+
+function getGoldPersonInformationSortByType()
+{
+    const url = "api.php?operation=goldPersonSortByType";
+    const request = new Request(url, {
+        method:'POST',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sort: sortType }),
+    });
+
+    fetch(request)
+        .then(request => request.json())
+        .then(data =>
+        {
+            let tableGold = document.getElementById("bodyGold");
+            tableGold.innerHTML = "";
+            data.forEach(d => {
+                tableGold.append(getRowForTableGold(d));
+            });
+
+
+        });
+}
+
+function getGoldPersonInformationSortByTypeAndYear()
+{
+    const url = "api.php?operation=goldPersonSortTypeAndYear";
+    const request = new Request(url, {
+        method:'POST',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sortType: sortType,sortYear: sortYear }),
+    });
+
+    fetch(request)
+        .then(request => request.json())
+        .then(data =>
+        {
+            let tableGold = document.getElementById("bodyGold");
+            tableGold.innerHTML = "";
+            data.forEach(d => {
+                tableGold.append(getRowForTableGold(d));
+            });
+
+
+        });
+}
+
+
+
+
+
+
+
 
 
 function getRowForTableGold(tableData)
@@ -205,6 +303,45 @@ function setTables()
     getGoldPersonInformation();
     getBestPersonInformation();
 }
+
+
+
+function sortBySurname()
+{
+    if(sortSurname === "ASC")
+        sortSurname = "DESC";
+    else sortSurname = "ASC"
+
+    isSortedByType = false;
+    getGoldPersonInformationSortBySurname();
+}
+
+function sortByType()
+{
+    if(sortType === "ASC")
+        sortType = "DESC";
+    else sortType = "ASC"
+
+    isSortedByType = true;
+    getGoldPersonInformationSortByType();
+}
+
+function sortByYear()
+{
+    if(sortYear === "ASC")
+        sortYear = "DESC";
+    else sortYear = "ASC"
+    if(isSortedByType === true)
+    {
+        getGoldPersonInformationSortByTypeAndYear();
+    }
+    else
+    {
+        getGoldPersonInformationSortByYear();
+    }
+}
+
+
 
 
 

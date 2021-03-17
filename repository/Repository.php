@@ -29,6 +29,78 @@ class Repository
         return $stmt->fetchAll(PDO::FETCH_CLASS,"MainTable");
     }
 
+    public function getMainTableSortBySurname($sort)
+    {
+        $sql = "";
+        if($sort == "ASC")
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY osoby.surname ASC;";
+        else
+        {
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY osoby.surname DESC;";
+        }
+        $poz = 1;
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("pozicia",$poz,PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_CLASS,"MainTable");
+    }
+
+    public function getMainTableSortByType($sort)
+    {
+        $sql = "";
+        if($sort == "ASC")
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY oh.type ASC;";
+        else
+        {
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY oh.type DESC;";
+        }
+        $poz = 1;
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("pozicia",$poz,PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_CLASS,"MainTable");
+    }
+
+    public function getMainTableSortByYear($sort)
+    {
+        $sql = "";
+        if($sort == "ASC")
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY oh.year ASC;";
+        else
+        {
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY oh.year DESC;";
+        }
+        $poz = 1;
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("pozicia",$poz,PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_CLASS,"MainTable");
+    }
+
+    public function getMainTableSortByTypeAndYear($sortType, $sortYear)
+    {
+        $sql = "";
+        if($sortType == "ASC" && $sortYear == "ASC")
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY oh.type ASC, oh.year ASC;";
+        else if($sortType == "ASC" && $sortYear == "DESC")
+        {
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY oh.type ASC, oh.year DESC;";
+        }
+        else if($sortType == "DESC" && $sortYear == "DESC")
+        {
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY oh.type DESC, oh.year DESC;";
+        }
+        else if($sortType == "DESC" && $sortYear == "ASC")
+        {
+            $sql = "SELECT osoby.id as id, osoby.name as meno, osoby.surname AS priezvisko, oh.year as rok, oh.city as mesto, oh.type as typ, umiestnenia.discipline as disciplina  from osoby INNER JOIN umiestnenia ON umiestnenia.person_id = osoby.id INNER JOIN oh ON umiestnenia.oh_id = oh.id where umiestnenia.placing = :pozicia ORDER BY oh.type DESC, oh.year ASC;";
+        }
+        $poz = 1;
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam("pozicia",$poz,PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_CLASS,"MainTable");
+    }
+
     public function getBestPerson()
     {
         $stmt = $this->conn->prepare("SELECT osoby.* FROM umiestnenia INNER JOIN osoby ON osoby.id = umiestnenia.person_id WHERE umiestnenia.placing = 1 GROUP BY umiestnenia.person_id ORDER BY COUNT(umiestnenia.placing) DESC LIMIT 10;");
